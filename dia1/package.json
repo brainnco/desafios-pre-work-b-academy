@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "dia1",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^2.4.4"
+  }
+}
