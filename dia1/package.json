@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "dia1",
+  "name": "desafio1",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
