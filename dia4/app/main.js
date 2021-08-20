@@ -1,4 +1,5 @@
 import './style.css'
+import { get, post } from './http'
 
 const url = 'http://localhost:3333/cars'
 const form = document.querySelector('[data-js="cars-form"]')
@@ -41,7 +42,7 @@ function createColor (value) {
   return td
 }
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault()
   const getElement = getFormElement(e)
 
@@ -52,6 +53,16 @@ form.addEventListener('submit', (e) => {
     plate: getElement('plate').value,
     color: getElement('color').value,
   }
+
+  const result = await post(url, data)
+
+  if (result.error) {
+    console.log('deu erro na hora de cadastrar', result.message)
+    return
+  }
+
+  const noContent = document.querySelector('[data-js="no-content"]')
+  table.removeChild(noContent)
 
   createTableRow(data)
 
@@ -84,14 +95,13 @@ function createNoCarRow () {
   td.setAttribute('colspan', thsLength)
   td.textContent = 'Nenhum carro encontrado'
 
+  tr.dataset.js = 'no-content'
   tr.appendChild(td)
   table.appendChild(tr)
 }
 
 async function main () {
-  const result = await fetch(url)
-    .then(r => r.json())
-    .catch(e => ({ error: true, message: e.message }))
+  const result = await get(url)
 
   if (result.error) {
     console.log('Erro ao buscar carros', result.message)
