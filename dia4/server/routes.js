@@ -41,6 +41,31 @@ router.post('/', checkBody, checkAlreadyRegistered, (req, res) => {
   res.json({ message: `O carro com placa ${req.body.plate} foi cadastrado com sucesso` })
 })
 
+router.put('/:plate', checkBody, (req, res) => {
+  const { plate } = req.params
+
+  if (!areAllFieldsValid(req.body)) {
+    res.status(400).json({
+      error: true,
+      message: 'Todos os campos são obrigatórios',
+    })
+
+    return
+  }
+
+  delete data[plate]
+
+  data[req.body.plate.toUpperCase()] = {
+    image: req.body.image,
+    brandModel: req.body.brandModel,
+    year: req.body.year,
+    plate: req.body.plate,
+    color: req.body.color
+  }
+
+  res.json({ message: `O carro com placa ${plate} foi atualizado com sucesso` })
+})
+
 router.delete('/', (req, res) => {
   delete data[req.body.plate.toUpperCase()]
   res.json({ message: `O carro com placa ${req.body.plate} foi removido com sucesso` })
